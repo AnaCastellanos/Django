@@ -121,3 +121,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#Determina utilizar nuestro usuario personalizado y no el predeterminado
+AUTH_USER_MODEL = 'profiles_api.UserProfile'
