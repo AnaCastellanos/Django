@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+#Agregamos la biblioteca include
+from django.conf.urls import include
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    #Definimos la carpeta de urls de nuestra profiles api
+    url(r'^api/', include(profiles_api.urls))
 ]
