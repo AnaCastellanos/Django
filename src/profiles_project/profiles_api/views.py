@@ -10,6 +10,9 @@ from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 #Modulo de filtros agrega a nuestro viewset un filtro
 from rest_framework import filters
+#Para el inicio de sesion
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
 
 #Importa los serializers
 from . import serializers
@@ -131,3 +134,13 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     #Definimos que filtros permitimos
     search_fields = ('name', 'email',)
+
+class LoginViewSet(viewsets.ViewSet):
+    """Ingresa Email y pasword para regresar un token."""
+
+    serializer_class = AuthTokenSerializer
+
+    def create(self, request):
+        """Usa ObtainAuthToken APIView para validar y crear un token"""
+
+        return ObtainAuthToken().post(request)
