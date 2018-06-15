@@ -1,19 +1,23 @@
 from django.shortcuts import render
 
-#Para Viewsets
+#Para las API Viewsets
 from rest_framework import viewsets
-
+from rest_framework import status
+#Para las APIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
+#token authentication integrado en rest_framework django
+from rest_framework.authentication import TokenAuthentication
 
 #Importa los serializers
 from . import serializers
 from . import models
+#Para importar los permisos
+from . import permissions
 
-from rest_framework import status
+
 
 # Create your views here.
-
 class HelloApiView(APIView):
     """"Test API View."""
     #variable serealizer que hace referencia a nuestro serializer.
@@ -117,3 +121,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 
     serializer_class = serializers.UserProfileSerializer
     queryset = models.UserProfile.objects.all()
+    authentication_class = (TokenAuthentication,)
+    #Clases de permisos aplicados a esta vista. La coma al final
+    #Indica que es una tupla=Una lista no editable
+    permission_classes = (permissions.UpdateOwnProfile,)
