@@ -2,6 +2,16 @@ from django.conf.urls import url
 
 from . import views
 
+#Para el enrutamiento de las Viewsets
+from django.conf.urls import include
+from rest_framework.routers import DefaultRouter
+
+#Definimos una variable para el enturatmient
+router = DefaultRouter()
+router.register('hello-viewset', views.HelloViewSet, base_name='hello-viewset')
+router.register('profile', views.UserProfileViewSet)
+
 urlpatterns = [
-    url(r'^hello-view/', views.HelloApiView.as_view())
+    url(r'^hello-view/', views.HelloApiView.as_view()),
+    url(r'', include(router.urls))
 ]

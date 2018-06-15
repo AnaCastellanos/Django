@@ -1,10 +1,15 @@
 from django.shortcuts import render
 
+#Para Viewsets
+from rest_framework import viewsets
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 #Importa los serializers
 from . import serializers
+from . import models
+
 from rest_framework import status
 
 # Create your views here.
@@ -57,3 +62,58 @@ class HelloApiView(APIView):
         """Borra objetos"""
 
         return Response({'method': 'delete'})
+
+#Creamos una viewset
+class HelloViewSet(viewsets.ViewSet):
+    """Test API ViewSet"""
+
+    serializer_class = serializers.HelloSerializer
+
+    def list(self, request):
+        """Regresa una lista de objetos."""
+        a_viewset = [
+            'Users actions (list, create, retrieve, update, partial_update)',
+            'Automatically maps to URLs using Routers',
+            'Provides more functionality with less code.'
+        ]
+
+        return Response({'message': 'Hello!', 'a_viewset': a_viewset})
+
+    def create(self, request):
+        """Crea un nuevo objeto."""
+
+        serializer = serializers.HelloSerializer(data=request.data)
+
+        if serializer.is_valid():
+            name = serializer.data.get('name')
+            message = 'Helo {0}'.format(name)
+            return Response({'message': message})
+        else:
+            return Response(
+                serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def retrieve(self, request, pk=None):
+        """Maneja los objetos por su ID's"""
+
+        return Response({'http_method': 'GET'})
+
+    def update(self, request, pk=None):
+        """Actualiza el objeto"""
+
+        return Response({'http_method': 'PUT'})
+
+    def partial_update(self, request, pk=None):
+        """Actualiza sólo una parte del objeto"""
+
+        return Response({'http_method': 'PATCH'})
+
+    def destroy(self, request, pk=None):
+        """Destruye/Elimina un objeto"""
+
+        return Response({'http_method': 'DELETE'})
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """Crea y actualiza los perfiles"""
+
+    serializer_class = serializers.UserProfileSerializer
+    queryset = models.UserProfile.objects.all()
