@@ -1,7 +1,7 @@
-from django.conf.urls import URL
+from django.conf.urls import url
 
 from . import views
 
-utlpatterns = [
+urlpatterns = [
     url(r'^hello-view/', views.HelloApiView.as_view())
 ]

@@ -124,3 +124,7 @@ STATIC_URL = '/static/'
 
 #Determina utilizar nuestro usuario personalizado y no el predeterminado
 AUTH_USER_MODEL = 'profiles_api.UserProfile'
+#Agregamos para poder entrar al panel de admin
+AUTHENTICATION_BACKENDS = (
+    ('django.contrib.auth.backends.ModelBackend'),
+)

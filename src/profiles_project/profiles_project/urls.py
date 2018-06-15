@@ -21,5 +21,5 @@ from django.conf.urls import include
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     #Definimos la carpeta de urls de nuestra profiles api
-    url(r'^api/', include(profiles_api.urls))
+    url(r'^api/', include('profiles_api.urls')),
 ]

@@ -7,11 +7,11 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 
 #Administrador de objetos
-class UserProfileManagr(BaseUserManager):
+class UserProfileManager(BaseUserManager):
     """ Ayuda a Django trabajar con nuestro modelo de usuario personalizado."""
 
     #Función que indica a Django no usar el modelo de usuario predeterminado.
-    def create_user(self, name, email, password=None):
+    def create_user(self, email, name, password=None):
         """Crea un nuevo objeto de perfil de usuario."""
 
         #Nos aseguramos de que hayan ingresado un email, de lo contrario
@@ -53,7 +53,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
 
     #Refrencia del administrador de UserProfile
-    objects = UserProfileManagr()
+    objects = UserProfileManager()
 
     #Definimos el atributo username igual al email
     USERNAME_FIELD = 'email'
@@ -73,7 +73,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 
     #Función final. Es requerida. Devuelve el objeto en una cadena
     #Aquí indicamos que campos imprimir de UserProfile
-    def __str__(str):
+    def __str__(self):
         """Django usa esto cuando necesita convertir el objeto a una cadena."""
 
         return self.email
