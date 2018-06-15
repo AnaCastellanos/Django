@@ -8,6 +8,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 #token authentication integrado en rest_framework django
 from rest_framework.authentication import TokenAuthentication
+#Modulo de filtros agrega a nuestro viewset un filtro
+from rest_framework import filters
 
 #Importa los serializers
 from . import serializers
@@ -125,3 +127,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     #Clases de permisos aplicados a esta vista. La coma al final
     #Indica que es una tupla=Una lista no editable
     permission_classes = (permissions.UpdateOwnProfile,)
+    #Filtros de busqueda
+    filter_backends = (filters.SearchFilter,)
+    #Definimos que filtros permitimos
+    search_fields = ('name', 'email',)
