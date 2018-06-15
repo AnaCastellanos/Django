@@ -77,3 +77,22 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         """Django usa esto cuando necesita convertir el objeto a una cadena."""
 
         return self.email
+
+
+class ProfileFeedItem(models.Model):
+    """Actualiza el status de perfil."""
+
+    #ForeignKey crea un enlace desde este modelo a otro
+    #nuestra base de datos. En el primer parámetro una cadena
+    #y en el segundo lo que queremos hacer cuando se elimine
+    #el objeto.
+    #models.CASCADE = Eliminar en cascada
+    user_profile = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    status_text = models.CharField(max_length=255)
+    #creared on almacena la fecha en la que se cro
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        """Regresa el modelo como un string"""
+
+        return self.status_text
