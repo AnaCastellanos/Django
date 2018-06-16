@@ -15,3 +15,15 @@ class UpdateOwnProfile(permissions.BasePermission):
         #DELETE. Se asegura que el usuario sea el mismo que el que
         #esta utenticado y del perfil que intenta editar.
         return obj.id == request.user.id
+
+
+class PostOwnStatus(permissions.BasePermission):
+    """Permtir a los usuarios actualizar su propio perfil."""
+
+    def has_object_permission(self, request, view, obj):
+        """Verific al usuario que esta tratando de actualizar su propio estado."""
+
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        return obj.user_profile.id == request.user.id

@@ -24,7 +24,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
         #Función para manejar correctamente las contraseñas
         #Encripta la contraseña como un hash
-        def crate(self, validated_data):
+        def create(self, validated_data):
             """Crea y regresa un nuevo usuario."""
 
             user = models.UserProfile(
@@ -36,3 +36,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
             user.save()
 
             return user
+
+
+class ProfileFeedItemSerializer(serializers.ModelSerializer):
+    """Serializer para elementos de perfil."""
+
+    class Meta:
+        model = models.ProfileFeedItem
+        fields = ('id', 'user_profile', 'status_text', 'created_on')
+        extra_kwargs = {'user_profile': {'read_only': True}}
+
+        #def create(self, validated_data):

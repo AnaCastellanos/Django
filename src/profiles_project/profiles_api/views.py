@@ -13,6 +13,10 @@ from rest_framework import filters
 #Para el inicio de sesion
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
+#Da permisos si estas autenticado pero los restringe al acceso de solo lectura
+#si no estan autenticados.
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
 
 #Importa los serializers
 from . import serializers
@@ -144,3 +148,20 @@ class LoginViewSet(viewsets.ViewSet):
         """Usa ObtainAuthToken APIView para validar y crear un token"""
 
         return ObtainAuthToken().post(request)
+
+
+class UserProfileFeedViewSet(viewsets.ModelViewSet):
+    """Crea, lee y actuliza los elementos de perfil ."""
+
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = serializers.ProfileFeedItemSerializer
+    queryset = models.ProfileFeedItem.objects.all()
+    permission_classes = (permissions.PostOwnStatus, IsAuthenticatedOrReadOnly)
+
+    #Funcion para personalizar la logica de creacion de un objeto
+    #a través de nuestro viewset
+    def perform_create(self, serializer):
+        """Envia al perfil de usuario que se logeo."""
+
+        #Guarda en e serializer los datos.
+        serializer.save(user_profile=self.request.user)
