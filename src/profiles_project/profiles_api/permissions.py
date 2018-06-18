@@ -21,7 +21,7 @@ class PostOwnStatus(permissions.BasePermission):
     """Permtir a los usuarios actualizar su propio perfil."""
 
     def has_object_permission(self, request, view, obj):
-        """Verific al usuario que esta tratando de actualizar su propio estado."""
+        """Verifica al usuario que esta tratando de actualizar su propio estado."""
 
         if request.method in permissions.SAFE_METHODS:
             return True

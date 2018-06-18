@@ -16,7 +16,8 @@ from rest_framework.authtoken.views import ObtainAuthToken
 #Da permisos si estas autenticado pero los restringe al acceso de solo lectura
 #si no estan autenticados.
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-
+#Registra si el usuario esta autenticado para permitirlo ver algunas vistas
+from rest_framework.permissions import IsAuthenticated
 
 #Importa los serializers
 from . import serializers
@@ -156,7 +157,8 @@ class UserProfileFeedViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     serializer_class = serializers.ProfileFeedItemSerializer
     queryset = models.ProfileFeedItem.objects.all()
-    permission_classes = (permissions.PostOwnStatus, IsAuthenticatedOrReadOnly)
+    #Permite que únicamente un usuario autenticado pueda ver la vista.
+    permission_classes = (permissions.PostOwnStatus, IsAuthenticated)
 
     #Funcion para personalizar la logica de creacion de un objeto
     #a través de nuestro viewset
